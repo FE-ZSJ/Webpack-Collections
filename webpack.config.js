@@ -3,8 +3,8 @@ const path = require('path')
 module.exports = {
     entry: './main.js', // 相对路径
     output: {
-        path: path.resolve(__dirname, 'dist'),// 绝对路径
-        filename: 'main.js'
+        path: path.resolve(__dirname, 'dist'),// 绝对路径,所有文件的输出目录
+        filename: 'static/js/main.js' // js目录
     },
     // loader规则匹配
     module: {
@@ -48,6 +48,12 @@ module.exports = {
                         maxSize: 10 * 1024, // 小于10kb的图片会处理成base64格式，减少发送请求，打包后体积变大所以设置小图片打包
                     },
                 },
+                generator: {
+                    // [hash:8]: 根据文件内容生成的hash值取8位
+                    // [ext]: 对应文件扩展名
+                    // [query]: 对应query参数
+                    filename: 'static/images/[hash:8][ext][query]'
+                }
             }
         ]
     },
