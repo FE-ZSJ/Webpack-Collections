@@ -4,7 +4,8 @@ module.exports = {
     entry: './main.js', // 相对路径
     output: {
         path: path.resolve(__dirname, 'dist'),// 绝对路径,所有文件的输出目录
-        filename: 'static/js/main.js' // js目录
+        filename: 'static/js/main.js', // js目录
+        clean: true // webpack4用的是clearwebpackplugin，webpack5仅需要设置clean即可
     },
     // loader规则匹配
     module: {
