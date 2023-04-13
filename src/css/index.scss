@@ -1,9 +1,15 @@
-@mixin sexy-border($color, $width: 1in) {
+@mixin sexy-border($color, $width: 1px) {
   border: {
     color: $color;
     width: $width;
     style: dashed;
   }
 }
-p { @include sexy-border(blue); }
-h1 { @include sexy-border(blue, 2in); }
+p { @include sexy-border(blue);
+  background-image: url('../images/litter.jpg');
+  background-repeat: no-repeat;
+  height: 48px;
+  width: 48px;
+  text-align: center;
+}
+h1 { @include sexy-border(blue, 2px); }

@@ -40,6 +40,15 @@ module.exports = {
                 test: /\.styl$/,
                 loader: "stylus-loader", // 将 Stylus 文件编译为 CSS
             },
+            {
+                test: /\.(png|jpe?g|webp|gif)$/,
+                type: 'asset',
+                parser: {
+                    dataUrlCondition: {
+                        maxSize: 10 * 1024, // 小于10kb的图片会处理成base64格式，减少发送请求，打包后体积变大所以设置小图片打包
+                    },
+                },
+            }
         ]
     },
     // 插件
