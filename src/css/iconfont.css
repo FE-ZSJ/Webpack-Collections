@@ -1,0 +1,79 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 4018195 */
+  src: url('../fonts/iconfont.woff2?t=1681570442569') format('woff2'),
+       url('../fonts/iconfont.woff?t=1681570442569') format('woff'),
+       url('../fonts/iconfont.ttf?t=1681570442569') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-gongren:before {
+  content: "\e8b6";
+}
+
+.icon-nanbaoanbaobiao:before {
+  content: "\e8b7";
+}
+
+.icon-nainai:before {
+  content: "\e8b8";
+}
+
+.icon-gongzhu:before {
+  content: "\e8b9";
+}
+
+.icon-nanxuesheng:before {
+  content: "\e8ba";
+}
+
+.icon-nanlaoshi:before {
+  content: "\e8bb";
+}
+
+.icon-nvfaguan:before {
+  content: "\e8bc";
+}
+
+.icon-nanfaguan:before {
+  content: "\e8bd";
+}
+
+.icon-nvxuesheng:before {
+  content: "\e8be";
+}
+
+.icon-nvhai:before {
+  content: "\e8bf";
+}
+
+.icon-wangzi:before {
+  content: "\e8c0";
+}
+
+.icon-yeye:before {
+  content: "\e8c1";
+}
+
+.icon-nanyinger:before {
+  content: "\e8c2";
+}
+
+.icon-nvchushi:before {
+  content: "\e8c3";
+}
+
+.icon-nvjingcha:before {
+  content: "\e8c4";
+}
+
+.icon-xiaochounv:before {
+  content: "\e8c5";
+}
+

@@ -55,6 +55,13 @@ module.exports = {
                     // [query]: 对应query参数
                     filename: 'static/images/[hash:8][ext][query]'
                 }
+            },
+            {
+                test: /\.(woff|woff2|eot|ttf|otf|mp4|mp3|avi)$/,
+                type: 'asset/resource',
+                generator: {
+                    filename: 'static/media/[hash:8][ext][query]'
+                }
             }
         ]
     },
