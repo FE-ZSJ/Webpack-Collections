@@ -1,5 +1,7 @@
 // webpack配置文件，打包时识别到可简化命令行操作
 const path = require('path')
+const ESLintPlugin = require('eslint-webpack-plugin');
+
 module.exports = {
     entry: './main.js', // 相对路径
     output: {
@@ -66,6 +68,11 @@ module.exports = {
         ]
     },
     // 插件
-    plugins: [],
+    plugins: [
+        new ESLintPlugin({
+            // 指定eslint检查文件的根目录
+            context: path.resolve(__dirname, 'src')
+        })
+    ],
     mode: 'development'
 }
