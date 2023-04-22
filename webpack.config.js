@@ -64,6 +64,16 @@ module.exports = {
                 generator: {
                     filename: 'static/media/[hash:8][ext][query]'
                 }
+            },
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,// 排除第三方库处理
+                use: {
+                    loader: 'babel-loader',
+                    // options: {
+                    //     presets: ['@babel/preset-env']
+                    // }
+                }
             }
         ]
     },
