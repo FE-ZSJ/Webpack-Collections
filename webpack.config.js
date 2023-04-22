@@ -1,6 +1,7 @@
 // webpack配置文件，打包时识别到可简化命令行操作
 const path = require('path')
 const ESLintPlugin = require('eslint-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: './main.js', // 相对路径
@@ -82,6 +83,10 @@ module.exports = {
         new ESLintPlugin({
             // 指定eslint检查文件的根目录
             context: path.resolve(__dirname, 'src')
+        }),
+        // 以 public/index.html为模板创建文件: 1.内容和源文件一致 2.自动引入打包生成的js等资源
+        new HtmlWebpackPlugin({
+            template: path.resolve(__dirname, 'public/index.html')
         })
     ],
     mode: 'development'
