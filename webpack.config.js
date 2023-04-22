@@ -10,6 +10,13 @@ module.exports = {
         filename: 'static/js/main.js', // js目录
         clean: true // webpack4用的是clearwebpackplugin，webpack5仅需要设置clean即可
     },
+    // 监听文件的变化，自动打包
+    devServer: {
+        host: "localhost", // 启动服务器域名
+        port: "8080", // 启动服务器端口号
+        open: true, // 是否自动打开浏览器
+        https: true, // 选择使用 HTTPS 提供服务
+    },
     // loader规则匹配
     module: {
         rules: [
