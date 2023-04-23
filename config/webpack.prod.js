@@ -3,6 +3,7 @@ const path = require('path')
 const ESLintPlugin = require('eslint-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
 // 合并不同样式文件的loader配置
 const getStyleLoaders = (preProcessor) => {
@@ -99,6 +100,7 @@ module.exports = {
             // 定义输出文件名和目录
             filename: "static/css/main.css",
         }),
+        new CssMinimizerPlugin(), // 生产模式默认开启html、js压缩
     ],
     mode: 'production'
 }
