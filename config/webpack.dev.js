@@ -6,11 +6,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
     entry: './main.js', // 相对路径
     output: {
-        path: path.resolve(__dirname, 'dist'),// 绝对路径,所有文件的输出目录
+        path: undefined,// 开发环境没有输出，不需要指定输出目录
         filename: 'static/js/main.js', // js目录
-        clean: true // webpack4用的是clearwebpackplugin，webpack5仅需要设置clean即可
+        // clean: true // 开发环境没有输出，不需要清空输出结果
     },
-    // 监听文件的变化，自动打包
+    // 监听文件的变化，自动打包，打包生成的文件在内存不会输出到dist目录
     devServer: {
         host: "localhost", // 启动服务器域名
         port: "8080", // 启动服务器端口号
@@ -89,11 +89,11 @@ module.exports = {
     plugins: [
         new ESLintPlugin({
             // 指定eslint检查文件的根目录
-            context: path.resolve(__dirname, 'src')
+            context: path.resolve(__dirname, '../src') // 绝对路径回退一层目录
         }),
         // 以 public/index.html为模板创建文件: 1.内容和源文件一致 2.自动引入打包生成的js等资源
         new HtmlWebpackPlugin({
-            template: path.resolve(__dirname, 'public/index.html')
+            template: path.resolve(__dirname, '../public/index.html')
         })
     ],
     mode: 'development'
