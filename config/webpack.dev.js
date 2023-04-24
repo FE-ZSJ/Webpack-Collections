@@ -96,5 +96,6 @@ module.exports = {
             template: path.resolve(__dirname, '../public/index.html')
         })
     ],
-    mode: 'development'
+    mode: 'development',
+    devtool: "cheap-module-source-map" // 没有列映射
 }

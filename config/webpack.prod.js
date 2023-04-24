@@ -102,5 +102,6 @@ module.exports = {
         }),
         new CssMinimizerPlugin(), // 生产模式默认开启html、js压缩
     ],
-    mode: 'production'
+    mode: 'production',
+    devtool: "source-map",
 }
