@@ -16,6 +16,7 @@ module.exports = {
         port: "8080", // 启动服务器端口号
         open: true, // 是否自动打开浏览器
         https: true, // 选择使用 HTTPS 提供服务
+        hot: true, // 开启HMR功能（只用于开发环境，生产环境不需要）
     },
     // loader规则匹配
     module: {
