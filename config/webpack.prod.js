@@ -78,7 +78,8 @@ module.exports = {
                     },
                     {
                         test: /\.js$/,
-                        exclude: /node_modules/,// 排除第三方库处理
+                        // exclude: /node_modules/,// 排除第三方库处理
+                        include: path.resolve(__dirname, '../src'), // 只处理src下的js
                         use: {
                             loader: 'babel-loader',
                             // options: {
@@ -94,7 +95,8 @@ module.exports = {
     plugins: [
         new ESLintPlugin({
             // 指定eslint检查文件的根目录
-            context: path.resolve(__dirname, '../src')
+            context: path.resolve(__dirname, '../src'),
+            exclude: 'node_mudules'// eslint默认排除node_mudules文件的代码检查
         }),
         // 以 public/index.html为模板创建文件: 1.内容和源文件一致 2.自动引入打包生成的js等资源
         new HtmlWebpackPlugin({
