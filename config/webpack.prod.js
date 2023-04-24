@@ -36,53 +36,57 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.css$/,
-                use: getStyleLoaders()
+                oneOf: [
+                    {
+                        test: /\.css$/,
+                        use: getStyleLoaders()
 
-            },
-            {
-                test: /\.less$/,
-                use: getStyleLoaders('less-loader') // 将less文件编译成css文件
-            },
-            {
-                test: /\.s[ac]ss$/,
-                use: getStyleLoaders('sass-loader') // 将 Sass 编译成 CSS
-            },
-            {
-                test: /\.styl$/,
-                use: getStyleLoaders('stylus-loader') // 将 Stylus 文件编译为 CSS
-            },
-            {
-                test: /\.(png|jpe?g|webp|gif)$/,
-                type: 'asset',
-                parser: {
-                    dataUrlCondition: {
-                        maxSize: 10 * 1024, // 小于10kb的图片会处理成base64格式，减少发送请求，打包后体积变大所以设置小图片打包
                     },
-                },
-                generator: {
-                    // [hash:8]: 根据文件内容生成的hash值取8位
-                    // [ext]: 对应文件扩展名
-                    // [query]: 对应query参数
-                    filename: 'static/images/[hash:8][ext][query]'
-                }
-            },
-            {
-                test: /\.(woff|woff2|eot|ttf|otf|mp4|mp3|avi)$/,
-                type: 'asset/resource',
-                generator: {
-                    filename: 'static/media/[hash:8][ext][query]'
-                }
-            },
-            {
-                test: /\.js$/,
-                exclude: /node_modules/,// 排除第三方库处理
-                use: {
-                    loader: 'babel-loader',
-                    // options: {
-                    //     presets: ['@babel/preset-env']
-                    // }
-                }
+                    {
+                        test: /\.less$/,
+                        use: getStyleLoaders('less-loader') // 将less文件编译成css文件
+                    },
+                    {
+                        test: /\.s[ac]ss$/,
+                        use: getStyleLoaders('sass-loader') // 将 Sass 编译成 CSS
+                    },
+                    {
+                        test: /\.styl$/,
+                        use: getStyleLoaders('stylus-loader') // 将 Stylus 文件编译为 CSS
+                    },
+                    {
+                        test: /\.(png|jpe?g|webp|gif)$/,
+                        type: 'asset',
+                        parser: {
+                            dataUrlCondition: {
+                                maxSize: 10 * 1024, // 小于10kb的图片会处理成base64格式，减少发送请求，打包后体积变大所以设置小图片打包
+                            },
+                        },
+                        generator: {
+                            // [hash:8]: 根据文件内容生成的hash值取8位
+                            // [ext]: 对应文件扩展名
+                            // [query]: 对应query参数
+                            filename: 'static/images/[hash:8][ext][query]'
+                        }
+                    },
+                    {
+                        test: /\.(woff|woff2|eot|ttf|otf|mp4|mp3|avi)$/,
+                        type: 'asset/resource',
+                        generator: {
+                            filename: 'static/media/[hash:8][ext][query]'
+                        }
+                    },
+                    {
+                        test: /\.js$/,
+                        exclude: /node_modules/,// 排除第三方库处理
+                        use: {
+                            loader: 'babel-loader',
+                            // options: {
+                            //     presets: ['@babel/preset-env']
+                            // }
+                        }
+                    }
+                ]
             }
         ]
     },
