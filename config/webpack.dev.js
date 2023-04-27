@@ -2,6 +2,11 @@
 const path = require('path')
 const ESLintPlugin = require('eslint-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const TerserPlugin = require("terser-webpack-plugin");
+
+const os = require('os')
+const threads = os.cpus.length // cpu核数
+
 
 // 合并不同样式文件的loader配置
 const getStyleLoaders = (preProcessor) => {
@@ -73,14 +78,22 @@ module.exports = {
                     test: /\.js$/,
                     // exclude: /node_modules/,// 排除第三方库处理
                     include: path.resolve(__dirname, '../src'), // 只处理src目录下的js文件
-                    use: {
-                        loader: 'babel-loader',
-                        options: {
-                            //     presets: ['@babel/preset-env']
-                            cacheDirectory: true, // 开启babel编译缓存
-                            cacheCompression: false // 关闭压缩缓存
+                    use: [
+                        {
+                            loader: 'thread-loader',
+                            options: {
+                                workers: threads // 开启多进程打包的进程数
+                            }
+                        },
+                        {
+                            loader: 'babel-loader',
+                            options: {
+                                //     presets: ['@babel/preset-env']
+                                cacheDirectory: true, // 开启babel编译缓存
+                                cacheCompression: false // 关闭压缩缓存
+                            }
                         }
-                    }
+                    ]
                 }
             ]
         }]
@@ -92,13 +105,22 @@ module.exports = {
             context: path.resolve(__dirname, '../src'), // 绝对路径回退一层目录
             exclude: 'node_modules', // eslint默认排除node_modules，不进行代码检查
             cache: true, // 开启缓存
-            cacheLocation: path.resolve(__dirname, '../node_modules/.cache/.eslintcache')
+            cacheLocation: path.resolve(__dirname, '../node_modules/.cache/.eslintcache'),
+            threads // 开启多进程打包eslint编译
         }),
         // 以 public/index.html为模板创建文件: 1.内容和源文件一致 2.自动引入打包生成的js等资源
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, '../public/index.html')
-        })
+        }),
+
     ],
+    optimization: {
+        minimizer: [
+            new TerserPlugin({ // 对js进行多进程压缩
+                parallel: threads
+            })
+        ]
+    },
     mode: 'development',
     devtool: "cheap-module-source-map" // 没有列映射
 }
