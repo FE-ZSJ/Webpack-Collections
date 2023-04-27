@@ -82,9 +82,11 @@ module.exports = {
                         include: path.resolve(__dirname, '../src'), // 只处理src下的js
                         use: {
                             loader: 'babel-loader',
-                            // options: {
-                            //     presets: ['@babel/preset-env']
-                            // }
+                            options: {
+                                //     presets: ['@babel/preset-env']
+                                cacheDirectory: true, // 开启babel编译缓存
+                                cacheCompression: false // 关闭压缩缓存
+                            }
                         }
                     }
                 ]
@@ -96,7 +98,9 @@ module.exports = {
         new ESLintPlugin({
             // 指定eslint检查文件的根目录
             context: path.resolve(__dirname, '../src'),
-            exclude: 'node_mudules'// eslint默认排除node_mudules文件的代码检查
+            exclude: 'node_modules', // eslint默认排除node_modules，不进行代码检查
+            cache: true, // 开启缓存
+            cacheLocation: path.resolve(__dirname, '../node_modules/.cache/.eslintcache')
         }),
         // 以 public/index.html为模板创建文件: 1.内容和源文件一致 2.自动引入打包生成的js等资源
         new HtmlWebpackPlugin({
