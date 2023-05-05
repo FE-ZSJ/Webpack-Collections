@@ -95,7 +95,8 @@ module.exports = {
                                 options: {
                                     //     presets: ['@babel/preset-env']
                                     cacheDirectory: true, // 开启babel编译缓存
-                                    cacheCompression: false // 关闭压缩缓存
+                                    cacheCompression: false, // 关闭压缩缓存
+                                    plugins: ["@babel/plugin-transform-runtime"], // 减少代码体积,从此引用辅助代码
                                 }
                             }]
                     }
