@@ -5,8 +5,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
-const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
-const { extendDefaultPlugins } = require("svgo");
+// const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
+// const { extendDefaultPlugins } = require("svgo");
 const os = require('os')
 const threads = os.cpus.length
 
@@ -32,9 +32,16 @@ const getStyleLoaders = (preProcessor) => {
 
 module.exports = {
     entry: './main.js', // 相对路径
+    // entry: {
+    //     app: './app.js',
+    //     main: './main.js'
+    // },
     output: {
         path: path.resolve(__dirname, '../dist'),// 绝对路径,所有文件的输出目录
-        filename: 'static/js/main.js', // js目录
+        // filename: 'static/js/main.js', // js目录
+        filename: 'static/js/[name].js', // 多入口，使用chunk的name作为输出的文件名
+        chunkFilename: "static/js/[name].chunk.js", // 动态导入额外的chunk输出资源命名方式
+        assetModuleFilename: "static/media/[name].[hash:8][ext]", // 处理type:asset静态资源,图片、字体等资源命名方式（注意用hash）
         clean: true // webpack4用的是clearwebpackplugin，webpack5仅需要设置clean即可
     },
     // loader规则匹配
@@ -67,19 +74,19 @@ module.exports = {
                                 maxSize: 10 * 1024, // 小于10kb的图片会处理成base64格式，减少发送请求，打包后体积变大所以设置小图片打包
                             },
                         },
-                        generator: {
-                            // [hash:8]: 根据文件内容生成的hash值取8位
-                            // [ext]: 对应文件扩展名
-                            // [query]: 对应query参数
-                            filename: 'static/images/[hash:8][ext][query]'
-                        }
+                        // generator: {
+                        //     // [hash:8]: 根据文件内容生成的hash值取8位
+                        //     // [ext]: 对应文件扩展名
+                        //     // [query]: 对应query参数
+                        //     filename: 'static/images/[hash:8][ext][query]'
+                        // }
                     },
                     {
                         test: /\.(woff|woff2|eot|ttf|otf|mp4|mp3|avi)$/,
                         type: 'asset/resource',
-                        generator: {
-                            filename: 'static/media/[hash:8][ext][query]'
-                        }
+                        // generator: {
+                        //     filename: 'static/media/[hash:8][ext][query]'
+                        // }
                     },
                     {
                         test: /\.js$/,
@@ -126,7 +133,9 @@ module.exports = {
         minimizer: [
             new MiniCssExtractPlugin({
                 // 定义输出文件名和目录
-                filename: "static/css/main.css",
+                // filename: "static/css/main.css",
+                filename: "static/css/[name].css",
+                chunkFilename: "static/css/[name].chunk.css",
             }),
             new CssMinimizerPlugin(), // 生产模式默认开启html、js压缩
             new TerserPlugin({ // 对js进行多进程压缩
@@ -162,7 +171,31 @@ module.exports = {
             //         ],
             //     },
             // }),
-        ]
+        ],
+        // 代码分割配置
+        splitChunks: {
+            chunks: "all", // 对所有模块都进行分割
+            // 以下是默认值
+            // minSize: 20000, // 分割代码最小的大小
+            // minRemainingSize: 0, // 类似于minSize，最后确保提取的文件大小不能为0
+            // minChunks: 1, // 至少被引用的次数，满足条件才会代码分割
+            // maxAsyncRequests: 30, // 按需加载时并行加载的文件的最大数量
+            // maxInitialRequests: 30, // 入口js文件最大并行请求数量
+            // enforceSizeThreshold: 50000, // 超过50kb一定会单独打包（此时会忽略minRemainingSize、maxAsyncRequests、maxInitialRequests）
+            // cacheGroups: { // 组，哪些模块要打包到一个组
+            //   defaultVendors: { // 组名
+            //     test: /[\\/]node_modules[\\/]/, // 需要打包到一起的模块
+            //     priority: -10, // 权重（越大越高）
+            //     reuseExistingChunk: true, // 如果当前 chunk 包含已从主 bundle 中拆分出的模块，则它将被重用，而不是生成新的模块
+            //   },
+            //   default: { // 其他没有写的配置会使用上面的默认值
+            //     minSize: 100, // 我们定义的文件体积太小了，所以要改打包的最小文件体积
+            //     minChunks: 2, // 这里的minChunks权重更大
+            //     priority: -20,
+            //     reuseExistingChunk: true,
+            //   },
+            // },
+        }
     },
     mode: 'production',
     devtool: "source-map",

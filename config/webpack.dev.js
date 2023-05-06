@@ -21,7 +21,9 @@ module.exports = {
     entry: './main.js', // 相对路径
     output: {
         path: undefined,// 开发环境没有输出，不需要指定输出目录
-        filename: 'static/js/main.js', // js目录
+        filename: 'static/js/[name].js', // 多入口，使用chunk的name作为输出的文件名
+        chunkFilename: "static/js/[name].chunk.js", // 动态导入额外的chunk输出资源命名方式
+        assetModuleFilename: "static/media/[name].[hash:8][ext]", // 处理type:asset静态资源,图片、字体等资源命名方式（注意用hash）
         // clean: true // 开发环境没有输出，不需要清空输出结果
     },
     // 监听文件的变化，自动打包，打包生成的文件在内存不会输出到dist目录
@@ -60,19 +62,19 @@ module.exports = {
                             maxSize: 10 * 1024, // 小于10kb的图片会处理成base64格式，减少发送请求，打包后体积变大所以设置小图片打包
                         },
                     },
-                    generator: {
-                        // [hash:8]: 根据文件内容生成的hash值取8位
-                        // [ext]: 对应文件扩展名
-                        // [query]: 对应query参数
-                        filename: 'static/images/[hash:8][ext][query]'
-                    }
+                    // generator: {
+                    //     // [hash:8]: 根据文件内容生成的hash值取8位
+                    //     // [ext]: 对应文件扩展名
+                    //     // [query]: 对应query参数
+                    //     filename: 'static/images/[hash:8][ext][query]'
+                    // }
                 },
                 {
                     test: /\.(woff|woff2|eot|ttf|otf|mp4|mp3|avi)$/,
                     type: 'asset/resource',
-                    generator: {
-                        filename: 'static/media/[hash:8][ext][query]'
-                    }
+                    // generator: {
+                    //     filename: 'static/media/[hash:8][ext][query]'
+                    // }
                 },
                 {
                     test: /\.js$/,
@@ -120,7 +122,11 @@ module.exports = {
             new TerserPlugin({ // 对js进行多进程压缩
                 parallel: threads
             })
-        ]
+        ],
+        // 代码分割配置
+        splitChunks: {
+            chunks: "all", // 对所有模块都进行分割
+        }
     },
     mode: 'development',
     devtool: "cheap-module-source-map" // 没有列映射
