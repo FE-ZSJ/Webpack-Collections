@@ -1,3 +1,7 @@
+// 全部引入
+// import 'core-js'
+// 只引入打包 promise 的 polyfill，打包体积更小
+import 'core-js/es/promise'
 import count from "./src/js/count";
 import './src/css/index.css'
 import './src/css/index.less'
@@ -19,3 +23,12 @@ document.getElementById('header').onclick = function () {
         alert(sum(1, 2, 3, 4, 5));
     })
 }
+
+new Promise((resolve) => {
+    setTimeout(() => {
+        resolve()
+    }, 1000)
+})
+
+const arr = [1, 2, 3]
+console.log(arr.includes(2))
