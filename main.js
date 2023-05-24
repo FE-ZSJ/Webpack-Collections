@@ -1,7 +1,7 @@
 // 全部引入
 // import 'core-js'
 // 只引入打包 promise 的 polyfill，打包体积更小
-import 'core-js/es/promise'
+// import 'core-js/es/promise'
 import count from "./src/js/count";
 import './src/css/index.css'
 import './src/css/index.less'
@@ -32,3 +32,14 @@ new Promise((resolve) => {
 
 const arr = [1, 2, 3]
 console.log(arr.includes(2))
+
+// 注册 Service Worker
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js').then(registration => {
+            console.log('SW registered: ', registration);
+        }).catch(registrationError => {
+            console.log('SW registration failed: ', registrationError);
+        });
+    });
+}
