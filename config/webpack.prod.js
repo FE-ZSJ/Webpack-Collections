@@ -40,8 +40,8 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, '../dist'),// 绝对路径,所有文件的输出目录
         // filename: 'static/js/main.js', // js目录
-        filename: 'static/js/[name].js', // 多入口，使用chunk的name作为输出的文件名
-        chunkFilename: "static/js/[name].chunk.js", // 动态导入额外的chunk输出资源命名方式
+        filename: 'static/js/[name].[contenthash:8].js', // 多入口，使用chunk的name作为输出的文件名, [contenthash:8]使用contenthash，取8位长度
+        chunkFilename: "static/js/[name].[contenthash:8].chunk.js", // 动态导入额外的chunk输出资源命名方式
         assetModuleFilename: "static/media/[name].[hash:8][ext]", // 处理type:asset静态资源,图片、字体等资源命名方式（注意用hash）
         clean: true // webpack4用的是clearwebpackplugin，webpack5仅需要设置clean即可
     },
@@ -140,8 +140,8 @@ module.exports = {
             new MiniCssExtractPlugin({
                 // 定义输出文件名和目录
                 // filename: "static/css/main.css",
-                filename: "static/css/[name].css",
-                chunkFilename: "static/css/[name].chunk.css",
+                filename: "static/css/[name].[contenthash:8].css",
+                chunkFilename: "static/css/[name].[contenthash:8].chunk.css",
             }),
             new CssMinimizerPlugin(), // 生产模式默认开启html、js压缩
             new TerserPlugin({ // 对js进行多进程压缩
@@ -201,7 +201,10 @@ module.exports = {
             //     reuseExistingChunk: true,
             //   },
             // },
-        }
+        },
+        runtimeChunk: {
+            name: (entrypoint) => `runtime~${entrypoint.name}`, // runtime文件命名规则
+        },
     },
     mode: 'production',
     devtool: "source-map",
