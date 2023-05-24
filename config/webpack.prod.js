@@ -7,6 +7,7 @@ const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 // const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
 // const { extendDefaultPlugins } = require("svgo");
+const PreloadWebpackPlugin = require("@vue/preload-webpack-plugin");
 const os = require('os')
 const threads = os.cpus.length
 
@@ -127,7 +128,12 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, '../public/index.html')
         }),
-
+        // prefetch浏览器空闲时间加载后续资源，preload立即加载
+        new PreloadWebpackPlugin({
+            rel: "preload", // preload兼容性更好
+            as: "script",
+            // rel: 'prefetch' // prefetch兼容性更差
+        }),
     ],
     optimization: {
         minimizer: [
